@@ -1,11 +1,7 @@
 import { Example } from './components/example';
 
 const App = () => {
-   return (
-      <>
-         <Example />
-      </>
-   );
+   return <Example />;
 };
 
 export default App;
