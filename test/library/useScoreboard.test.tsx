@@ -3,7 +3,7 @@ import { useScoreboard } from '../../src/library';
 import { renderHook, act } from '@testing-library/react';
 
 describe('useScoreboard', () => {
-   // ## useScoreboard ##
+   // useScoreboard
    it('should return an object with the request operations and data', () => {
       const { result } = renderHook(() => useScoreboard());
       const { scoreboard, createMatch, finishMatch, editMatch, summary } =
@@ -16,7 +16,7 @@ describe('useScoreboard', () => {
       expect(summary).toEqual(expect.any(Array));
    });
 
-   // ## createMatch ##
+   // createMatch
    it('should increment the length of the scoreboard by 1 upon creating a match', () => {
       const { result } = renderHook(() => useScoreboard());
       const { createMatch } = result.current;
@@ -87,5 +87,79 @@ describe('useScoreboard', () => {
       const lengthAfterAddAnotherMatch = result.current.scoreboard.length;
 
       expect(lengthAfterAddOneMatch + 1).toBe(lengthAfterAddAnotherMatch);
+   });
+
+   // finishMatch
+   it('should remove a match from scoreboard', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { createMatch, finishMatch } = result.current;
+
+      act(() => {
+         createMatch('Colombia', 'Peru');
+         createMatch('Venezuela', 'Bolivia');
+      });
+
+      const { id } = result.current.scoreboard[0];
+
+      act(() => {
+         finishMatch(id);
+      });
+
+      expect(result.current.scoreboard.length).toBe(1);
+   });
+
+   it('should keep the same length if the id provided does not exist in the scoreboard', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { createMatch, finishMatch } = result.current;
+
+      act(() => {
+         createMatch('Colombia', 'Peru');
+         createMatch('Venezuela', 'Bolivia');
+      });
+
+      act(() => {
+         finishMatch('ID');
+      });
+
+      expect(result.current.scoreboard.length).toBe(2);
+   });
+
+   // editMatch
+   it('should update the score of a match with the newScore', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { createMatch, editMatch } = result.current;
+
+      act(() => {
+         createMatch('Colombia', 'Peru');
+      });
+
+      const { id } = result.current.scoreboard[0];
+      const newScore: [number, number] = [0, 3];
+
+      act(() => {
+         editMatch(id, newScore);
+      });
+
+      const { score } = result.current.scoreboard[0];
+
+      expect(score).toEqual(newScore);
+   });
+
+   it('should keep the same length if the id provided does not exist in the scoreboard', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { createMatch, editMatch } = result.current;
+
+      act(() => {
+         createMatch('Colombia', 'Peru');
+         createMatch('Venezuela', 'Bolivia');
+      });
+
+      const newScore: [number, number] = [0, 3];
+
+      act(() => {
+         editMatch('ID', newScore);
+      });
+
+      expect(result.current.scoreboard.length).toBe(2);
    });
 });

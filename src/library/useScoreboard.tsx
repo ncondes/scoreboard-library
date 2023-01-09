@@ -19,9 +19,21 @@ export const useScoreboard = () => {
       setScoreboard((curr) => [...curr, match]);
    };
 
-   const finishMatch = () => {};
+   const finishMatch = (matchId: string) => {
+      if (!matchId) throw new Error('id was not provided');
 
-   const editMatch = () => {};
+      setScoreboard((curr) => curr.filter(({ id }) => id !== matchId));
+   };
+
+   const editMatch = (matchId: string, score: [number, number]) => {
+      if (!matchId) throw new Error('id was not provided');
+
+      setScoreboard((curr) =>
+         curr.map((match) =>
+            match.id === matchId ? { ...match, score } : match
+         )
+      );
+   };
 
    const summary: IMatch[] = [];
 
