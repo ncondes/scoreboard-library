@@ -9,8 +9,13 @@ describe('useScoreboard', () => {
 
    it('should return an object with the request operations and data', () => {
       const { result } = renderHook(() => useScoreboard());
-      const { scoreboard } = result.current;
+      const { scoreboard, createMatch, finishMatch, editMatch, summary } =
+         result.current;
 
       expect(scoreboard).toEqual(expect.any(Array));
+      expect(createMatch).toEqual(expect.any(Function));
+      expect(finishMatch).toEqual(expect.any(Function));
+      expect(editMatch).toEqual(expect.any(Function));
+      expect(summary).toEqual(expect.any(Array));
    });
 });
