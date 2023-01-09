@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { sortByScore } from '../helpers';
 import { IMatch } from '../interfaces';
 
 export const useScoreboard = () => {
@@ -35,7 +36,7 @@ export const useScoreboard = () => {
       );
    };
 
-   const summary: IMatch[] = [];
+   const summary: IMatch[] = sortByScore(scoreboard);
 
    return {
       scoreboard,
