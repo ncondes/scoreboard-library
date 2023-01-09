@@ -1,7 +1,9 @@
+import { Example } from './components/example';
+
 const App = () => {
    return (
       <>
-         <h1>Scoreboard</h1>
+         <Example />
       </>
    );
 };

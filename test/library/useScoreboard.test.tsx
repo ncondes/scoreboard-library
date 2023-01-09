@@ -17,6 +17,16 @@ describe('useScoreboard', () => {
    });
 
    // createMatch
+   it('should throw an error message if parameters are not provided', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { createMatch } = result.current;
+
+      expect(() => createMatch()).toThrow('team names were not provided');
+      expect(() => createMatch('Guatemala')).toThrow(
+         'team names were not provided'
+      );
+   });
+
    it('should increment the length of the scoreboard by 1 upon creating a match', () => {
       const { result } = renderHook(() => useScoreboard());
       const { createMatch } = result.current;
@@ -90,6 +100,13 @@ describe('useScoreboard', () => {
    });
 
    // finishMatch
+   it('should throw an error message if matchId is not provided', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { finishMatch } = result.current;
+
+      expect(() => finishMatch()).toThrow('id was not provided');
+   });
+
    it('should remove a match from scoreboard', () => {
       const { result } = renderHook(() => useScoreboard());
       const { createMatch, finishMatch } = result.current;
@@ -125,6 +142,14 @@ describe('useScoreboard', () => {
    });
 
    // editMatch
+   it('should throw an error message if matchId or score were not provided', () => {
+      const { result } = renderHook(() => useScoreboard());
+      const { editMatch } = result.current;
+
+      expect(() => editMatch()).toThrow('id was not provided');
+      expect(() => editMatch('ID')).toThrow('score was not provided');
+   });
+
    it('should update the score of a match with the newScore', () => {
       const { result } = renderHook(() => useScoreboard());
       const { createMatch, editMatch } = result.current;

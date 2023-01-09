@@ -28,6 +28,7 @@ export const useScoreboard = () => {
 
    const editMatch = (matchId: string, score: [number, number]) => {
       if (!matchId) throw new Error('id was not provided');
+      if (!score) throw new Error('score was not provided');
 
       setScoreboard((curr) =>
          curr.map((match) =>
